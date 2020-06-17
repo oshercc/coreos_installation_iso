@@ -3,8 +3,11 @@
 This image is a tool to create a coreOS image with a passed ignition file.
 The output of the container is a ISO live CD image that will be uploaded to s3 of your choice.
 
+Building an livecd image:
+* use Dockerfile.livecd-iso-image to create an container image that will store the LIVECD ISO that we are going to use. Pushed to some accessible repository
+
 Building a builder image:
-* Update the COREOS IMAGE in the Docker file to the coreOS live CD ISO of you'r choice
+* in the Dockerfile , update the first line to point to the LIVECD ISO image that you want to use ( the one you built in the previous stage)
 * Build the docker image and push to you registry
 
 ### Using the image:
