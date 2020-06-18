@@ -3,7 +3,7 @@ import random
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError
-import logging
+
 
 def upload_to_aws(local_file, bucket, s3_file):
     aws_access_key_id = os.environ.get("aws_access_key_id", "accessKey1")
@@ -12,8 +12,7 @@ def upload_to_aws(local_file, bucket, s3_file):
     if not endpoint_url:
         raise Exception("No S3 endpoind passed")
 
-
-    s3 = boto3.client(
+    s3_client = boto3.client(
         's3',
         aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key,
@@ -21,14 +20,13 @@ def upload_to_aws(local_file, bucket, s3_file):
     )
 
     try:
-        s3.upload_file(local_file, bucket, s3_file, ExtraArgs={'ACL': 'public-read'})
+        s3_client.upload_file(local_file, bucket, s3_file, ExtraArgs={'ACL': 'public-read'})
         print("Upload Successful")
 
         return True
     except NoCredentialsError:
         print("Credentials not available")
         return False
-
 
 
 if not os.environ.get('IGNITION_CONFIG'):
@@ -45,9 +43,9 @@ image_name = os.path.join(work_dir, os.environ.get("IMAGE_NAME", "coreos_install
 s3_name = os.environ.get("IMAGE_NAME", "coreos_install{}.img".format(random.getrandbits(30)))
 
 command = "%s/coreos-installer iso embed -c %s/ignition.config -o %s %s -f" % (work_dir, work_dir, image_name, os.environ.get("COREOS_IMAGE"))
-print("command to executes is:<%s>" % command) 
+print("command to executes is:<%s>" % command)
 
 subprocess.check_output(command, shell=True)
 
 bucket_name = os.environ.get('S3_BUCKET', 'test')
-uploaded = upload_to_aws(image_name, bucket_name, s3_name)
+upload_to_aws(image_name, bucket_name, s3_name)

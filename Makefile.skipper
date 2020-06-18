@@ -1,0 +1,14 @@
+all: pep8 pylint
+
+pep8:
+	pep8 --max-line-length=145 install_process.py
+
+pylint:
+	mkdir -p reports
+	PYLINTHOME=reports/ pylint install_process.py
+
+clean:
+	rm -rf ./__pycache__
+	find -name *.pyc -delete
+
+.PHONY: pep8 pylint clean

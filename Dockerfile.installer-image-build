@@ -1,0 +1,24 @@
+#This image contains the fedora livecd.sio
+FROM quay.io/ocpmetal/livecd-iso:fedora-coreos-livecd AS livecd-build
+
+FROM python:3
+ARG WORK_DIR=/data
+
+RUN mkdir $WORK_DIR
+RUN chmod 777 $WORK_DIR
+
+COPY --from=livecd-build /root/image/livecd.iso $WORK_DIR
+RUN chmod 666 $WORK_DIR/livecd.iso
+ENV COREOS_IMAGE=$WORK_DIR/livecd.iso
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
+
+RUN rm /tmp/*requirements.txt
+
+COPY ./coreos-installer $WORK_DIR
+COPY ./install_process.py $WORK_DIR
+
+ENV WORK_DIR=$WORK_DIR
+
+CMD python /data/install_process.py
