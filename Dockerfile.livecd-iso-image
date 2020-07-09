@@ -1,4 +1,3 @@
 FROM alpine:latest
 RUN mkdir /root/image
 COPY ./fedora-coreos-31.20200319.dev.1-live.x86_64.iso /root/image/livecd.iso
-RUN chmod 666 /root/image/livecd.iso

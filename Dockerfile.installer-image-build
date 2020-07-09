@@ -1,7 +1,8 @@
 #This image contains the fedora livecd.iso
 FROM quay.io/ocpmetal/livecd-iso:fedora-coreos-livecd AS livecd-build
+RUN chmod 666 /root/image/livecd.iso
 
-FROM python:3.7-alpine
+FROM python:3-slim
 ARG WORK_DIR=/data
 
 RUN mkdir $WORK_DIR
