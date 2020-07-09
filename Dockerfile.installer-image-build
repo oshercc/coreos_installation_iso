@@ -8,7 +8,6 @@ RUN mkdir $WORK_DIR
 RUN chmod 777 $WORK_DIR
 
 COPY --from=livecd-build /root/image/livecd.iso $WORK_DIR
-RUN chmod 666 $WORK_DIR/livecd.iso
 ENV COREOS_IMAGE=$WORK_DIR/livecd.iso
 
 COPY requirements.txt /tmp/requirements.txt
