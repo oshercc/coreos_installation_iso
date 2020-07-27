@@ -1,5 +1,5 @@
-#This image contains the fedora livecd.iso
-FROM quay.io/ocpmetal/livecd-iso:fedora-coreos-livecd AS livecd-build
+#This image contains the RHCOS livecd.iso
+FROM quay.io/ocpmetal/livecd-iso:rhcos-livecd AS livecd-build
 RUN chmod 666 /root/image/livecd.iso
 
 FROM python:3-slim
