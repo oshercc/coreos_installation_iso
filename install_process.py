@@ -21,7 +21,7 @@ def upload_to_aws(local_file, bucket, s3_file):
     )
 
     try:
-        s3_client.upload_file(local_file, bucket, s3_file, ExtraArgs={'ACL': 'public-read'})
+        s3_client.upload_file(local_file, bucket, s3_file)
         s3_client.put_object_tagging(Bucket=bucket, Key=s3_file,
                                      Tagging={'TagSet': [{'Key': 'create_sec_since_epoch', 'Value': str(int(time.time()))}]})
         print("Upload Successful")
