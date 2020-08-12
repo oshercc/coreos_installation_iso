@@ -10,8 +10,6 @@ def upload_to_aws(local_file, bucket, s3_file):
     aws_access_key_id = os.environ.get("aws_access_key_id", "accessKey1")
     aws_secret_access_key = os.environ.get("aws_secret_access_key", "verySecretKey1")
     endpoint_url = os.environ.get("S3_ENDPOINT_URL", None)
-    if not endpoint_url:
-        raise Exception("No S3 endpoind passed")
 
     s3_client = boto3.client(
         's3',
